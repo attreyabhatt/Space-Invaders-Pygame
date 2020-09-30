@@ -11,19 +11,19 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 
 # Background
-background = pygame.image.load('F:\\document.s\\Python\\GAME\\Space-Invaders-Pygame-master\\background.png')
+background = pygame.image.load('background.png')
 
 # Sound
-mixer.music.load("F:\\document.s\\Python\\GAME\\Space-Invaders-Pygame-master\\background.wav")
+mixer.music.load("background.wav")
 mixer.music.play(-1)
 
 # Caption and Icon
 pygame.display.set_caption("Space Invader")
-icon = pygame.image.load('F:\\document.s\\Python\\GAME\\Space-Invaders-Pygame-master\\ufo.png')
+icon = pygame.image.load('ufo.png')
 pygame.display.set_icon(icon)
 
 # Player
-playerImg = pygame.image.load('F:\\document.s\\Python\\GAME\\Space-Invaders-Pygame-master\\player.png')
+playerImg = pygame.image.load('player.png')
 playerX = 370
 playerY = 480
 playerX_change = 0
