@@ -34,7 +34,7 @@ enemyX = []
 enemyY = []
 enemyX_change = []
 enemyY_change = []
-num_of_enemies = 6
+num_of_enemies = 15
 
 for i in range(num_of_enemies):
     enemyImg.append(pygame.image.load('enemy.png'))
@@ -113,9 +113,9 @@ while running:
 
         # if keystroke is pressed check whether its right or left
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                 playerX_change = -5
-            if event.key == pygame.K_RIGHT:
+            if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                 playerX_change = 5
             if event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
@@ -126,7 +126,7 @@ while running:
                     fire_bullet(bulletX, bulletY)
 
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_a or event.key == pygame.K_d:
                 playerX_change = 0
 
     # 5 = 5 + -0.1 -> 5 = 5 - 0.1
@@ -134,9 +134,9 @@ while running:
 
     playerX += playerX_change
     if playerX <= 0:
-        playerX = 0
-    elif playerX >= 736:
         playerX = 736
+    elif playerX >= 736:
+        playerX = 0
 
     # Enemy Movement
     for i in range(num_of_enemies):
@@ -150,10 +150,10 @@ while running:
 
         enemyX[i] += enemyX_change[i]
         if enemyX[i] <= 0:
-            enemyX_change[i] = 4
+            enemyX_change[i] = 5
             enemyY[i] += enemyY_change[i]
         elif enemyX[i] >= 736:
-            enemyX_change[i] = -4
+            enemyX_change[i] = -7
             enemyY[i] += enemyY_change[i]
 
         # Collision
