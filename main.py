@@ -73,8 +73,10 @@ def show_score(x, y):
 
 
 def game_over_text():
+    global game_over
     over_text = over_font.render("GAME OVER", True, (255, 255, 255))
     screen.blit(over_text, (200, 250))
+    game_over = True
 
 
 def player(x, y):
@@ -86,9 +88,10 @@ def enemy(x, y, i):
 
 
 def fire_bullet(x, y):
-    global bullet_state
-    bullet_state = "fire"
-    screen.blit(bulletImg, (x + 16, y + 10))
+	if not game_over:
+		global bullet_state
+		bullet_state = "fire"
+		screen.blit(bulletImg, (x + 16, y + 10))
 
 
 def isCollision(enemyX, enemyY, bulletX, bulletY):
@@ -101,6 +104,7 @@ def isCollision(enemyX, enemyY, bulletX, bulletY):
 
 # Game Loop
 running = True
+game_over = False
 while running:
 
     # RGB = Red, Green, Blue
@@ -153,7 +157,8 @@ while running:
             enemyX_change[i] = 4
             enemyY[i] += enemyY_change[i]
         elif enemyX[i] >= 736:
-            enemyX_change[i] = -4
+            enemyX[i] = 0
+            enemyX_change[i] = -1
             enemyY[i] += enemyY_change[i]
 
         # Collision
