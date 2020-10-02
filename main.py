@@ -27,6 +27,7 @@ playerImg = pygame.image.load('player.png')
 playerX = 370
 playerY = 480
 playerX_change = 0
+playerY_change = 0
 
 # Enemy
 enemyImg = []
@@ -92,7 +93,8 @@ def fire_bullet(x, y):
 
 
 def isCollision(enemyX, enemyY, bulletX, bulletY):
-    distance = math.sqrt(math.pow(enemyX - bulletX, 2) + (math.pow(enemyY - bulletY, 2)))
+    distance = math.sqrt(math.pow(enemyX - bulletX, 2) +
+                         (math.pow(enemyY - bulletY, 2)))
     if distance < 27:
         return True
     else:
@@ -117,6 +119,10 @@ while running:
                 playerX_change = -5
             if event.key == pygame.K_RIGHT:
                 playerX_change = 5
+            if event.key == pygame.K_UP:
+                playerY_change = -2
+            if event.key == pygame.K_DOWN:
+                playerY_change = 2
             if event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
                     bulletSound = mixer.Sound("laser.wav")
@@ -126,17 +132,22 @@ while running:
                     fire_bullet(bulletX, bulletY)
 
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                playerX_change = 0
+            playerX_change = 0.0
+            playerY_change = 0.0
 
     # 5 = 5 + -0.1 -> 5 = 5 - 0.1
     # 5 = 5 + 0.1
 
     playerX += playerX_change
+    playerY += playerY_change
     if playerX <= 0:
         playerX = 0
     elif playerX >= 736:
         playerX = 736
+    if playerY <= 0:
+        playerY = 0
+    elif playerY >= 536:
+        playerY = 536
 
     # Enemy Movement
     for i in range(num_of_enemies):
