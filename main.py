@@ -8,10 +8,10 @@ from pygame import mixer
 pygame.init()
 
 # create the screen
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((1000, 563))
 
 # Background
-background = pygame.image.load('background.png')
+background = pygame.image.load('background2.png')
 
 # Sound
 mixer.music.load("background.wav")
@@ -19,7 +19,7 @@ mixer.music.play(-1)
 
 # Caption and Icon
 pygame.display.set_caption("Space Invader")
-icon = pygame.image.load('ufo.png')
+icon = pygame.image.load('ufo2.png')
 pygame.display.set_icon(icon)
 
 # Player
@@ -114,9 +114,9 @@ while running:
         # if keystroke is pressed check whether its right or left
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                playerX_change = -5
+                playerX_change = -9
             if event.key == pygame.K_RIGHT:
-                playerX_change = 5
+                playerX_change = 9
             if event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
                     bulletSound = mixer.Sound("laser.wav")
