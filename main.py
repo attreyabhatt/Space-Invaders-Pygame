@@ -36,8 +36,12 @@ enemyX_change = []
 enemyY_change = []
 num_of_enemies = 6
 
+#explosion
+
+explosionImg = pygame.image.load('explosion.png')
+
 for i in range(num_of_enemies):
-    enemyImg.append(pygame.image.load('enemy.png'))
+    enemyImg.append(pygame.image.load('alien.png'))
     enemyX.append(random.randint(0, 736))
     enemyY.append(random.randint(50, 150))
     enemyX_change.append(4)
@@ -84,6 +88,8 @@ def player(x, y):
 def enemy(x, y, i):
     screen.blit(enemyImg[i], (x, y))
 
+def explosion(x, y):
+    screen.blit(explosionImg, (x, y))
 
 def fire_bullet(x, y):
     global bullet_state
@@ -159,6 +165,7 @@ while running:
         # Collision
         collision = isCollision(enemyX[i], enemyY[i], bulletX, bulletY)
         if collision:
+            explosion(enemyX[i], enemyY[i])
             explosionSound = mixer.Sound("explosion.wav")
             explosionSound.play()
             bulletY = 480
