@@ -11,7 +11,7 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 
 # Background
-background = pygame.image.load('background.png')
+background = pygame.image.load('background.png').convert()
 
 # Sound
 mixer.music.load("background.wav")
@@ -19,11 +19,11 @@ mixer.music.play(-1)
 
 # Caption and Icon
 pygame.display.set_caption("Space Invader")
-icon = pygame.image.load('ufo.png')
+icon = pygame.image.load('ufo.png').convert_alpha()
 pygame.display.set_icon(icon)
 
 # Player
-playerImg = pygame.image.load('player.png')
+playerImg = pygame.image.load('player.png').convert_alpha()
 playerX = 370
 playerY = 480
 playerX_change = 0
@@ -37,7 +37,7 @@ enemyY_change = []
 num_of_enemies = 6
 
 for i in range(num_of_enemies):
-    enemyImg.append(pygame.image.load('enemy.png'))
+    enemyImg.append(pygame.image.load('enemy.png').convert_alpha())
     enemyX.append(random.randint(0, 736))
     enemyY.append(random.randint(50, 150))
     enemyX_change.append(4)
@@ -48,7 +48,7 @@ for i in range(num_of_enemies):
 # Ready - You can't see the bullet on the screen
 # Fire - The bullet is currently moving
 
-bulletImg = pygame.image.load('bullet.png')
+bulletImg = pygame.image.load('bullet.png').convert_alpha()
 bulletX = 0
 bulletY = 480
 bulletX_change = 0
@@ -98,6 +98,7 @@ def isCollision(enemyX, enemyY, bulletX, bulletY):
     else:
         return False
 
+clock = pygame.time.Clock()
 
 # Game Loop
 running = True
@@ -118,7 +119,7 @@ while running:
             if event.key == pygame.K_RIGHT:
                 playerX_change = 5
             if event.key == pygame.K_SPACE:
-                if bullet_state is "ready":
+                if bullet_state == "ready":
                     bulletSound = mixer.Sound("laser.wav")
                     bulletSound.play()
                     # Get the current x cordinate of the spaceship
@@ -174,10 +175,16 @@ while running:
         bulletY = 480
         bullet_state = "ready"
 
-    if bullet_state is "fire":
+    if bullet_state == "fire":
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
 
     player(playerX, playerY)
     show_score(textX, testY)
     pygame.display.update()
+
+    # Lock FPS to 60
+    clock.tick(60)
+
+# Actually quit the game when game loop is over
+pygame.quit()
