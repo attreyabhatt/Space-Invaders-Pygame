@@ -99,10 +99,12 @@ def isCollision(enemyX, enemyY, bulletX, bulletY):
         return False
 
 
+# default to going left
+lastKeyL = True
+
 # Game Loop
 running = True
 while running:
-
     # RGB = Red, Green, Blue
     screen.fill((0, 0, 0))
     # Background Image
@@ -111,23 +113,45 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        # if keystroke is pressed check whether its right or left
+        # if keystroke is pressed mark it as the most recent
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                playerX_change = -5
+                lastKeyL = True
             if event.key == pygame.K_RIGHT:
-                playerX_change = 5
+                lastKeyL = False
             if event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
                     bulletSound = mixer.Sound("laser.wav")
                     bulletSound.play()
-                    # Get the current x cordinate of the spaceship
+                    # Get the current x coordinate of the spaceship
                     bulletX = playerX
                     fire_bullet(bulletX, bulletY)
 
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                playerX_change = 0
+    # determine which movement keys are held
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        left = True
+    else:
+        left = False
+    if keys[pygame.K_RIGHT]:
+        right = True
+    else:
+        right = False
+
+    # determine velocity based on which keys are held in which order
+    if (not right) and (not left):
+        playerX_change = 0
+    else:
+        if right and left:
+            if lastKeyL:
+                playerX_change = -5
+            else:
+                playerX_change = 5
+        else:
+            if left:
+                playerX_change = -5
+            else:
+                playerX_change = 5
 
     # 5 = 5 + -0.1 -> 5 = 5 - 0.1
     # 5 = 5 + 0.1
